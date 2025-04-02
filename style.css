@@ -1,0 +1,115 @@
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-align: center;
+  background-color: #fdf6e3;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h2 {
+  margin-top: 20px;
+}
+
+.alphabet-container, .counting-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto;
+  gap: 10px;
+}
+
+.letter, .number {
+  background-color: #ffcc70;
+  border: 2px solid #ff9933;
+  border-radius: 10px;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.letter:hover, .number:hover {
+  background-color: #ffe0a3;
+  transform: scale(1.1);
+}
+
+/* Added styling for the new target container */
+.drop-target-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px;
+  gap: 10px;
+  min-height: 80px; /* Give it some height */
+  width: 80%; /* Adjust width as needed */
+  background-color: #e0f7fa; /* Light cyan background */
+  border: 2px dashed #00796b; /* Dashed border */
+  border-radius: 10px;
+}
+
+/* Style for letters moved to the target area */
+.drop-target-container .letter {
+  background-color: #90ee90; /* Light green background */
+  cursor: default; /* Indicate they are not clickable anymore */
+}
+
+.count-display {
+  margin-top: 20px;
+  font-size: 32px;
+}
+
+/* Celebration Dinosaur */
+.celebration-dino {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.celebration-dino img {
+  width: 300px;
+  height: auto;
+}
+
+.dino-mouth {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 45%; /* Adjust as needed to align with dinosaur mouth */
+  left: 60%; /* Adjust as needed to align with dinosaur mouth */
+  border-radius: 50%;
+  /* Uncomment for debugging mouth position */
+  /* background-color: rgba(255, 0, 0, 0.5); */
+}
+
+/* Error Message Styling */
+.error-message {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff8dc; /* Cream background */
+  color: #ff6347; /* Tomato text */
+  padding: 12px 20px;
+  border-radius: 20px;
+  border: 2px solid #ff6347;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: bounce 0.6s;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+  40% {transform: translateX(-50%) translateY(-20px);}
+  60% {transform: translateX(-50%) translateY(-10px);}
+}
