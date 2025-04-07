@@ -1,4 +1,3 @@
-// Alphabet Game
 const alphabetContainer = document.querySelector('.alphabet-container');
 const dropTargetContainer = document.querySelector('.drop-target-container'); // Get target area
 const correctOrder = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -44,7 +43,7 @@ displayLetters.forEach(letter => {
 let draggedItem = null;
 function handleDragStart(e) { ... }
 function handleDragOver(e) { ... }
-function handleDrop(e) { ... }
+function handleDrop(e) => { ... }
 function handleDragEnd(e) { ... }
 function handleDragOverContainer(e) { ... }
 */
@@ -77,12 +76,10 @@ function handleLetterClick(e) {
             // All letters placed correctly!
             setTimeout(() => { // Short delay before celebration
                 // Create dinosaur element
-                const dino = document.createElement('div');
-                dino.className = 'celebration-dino';
-                dino.innerHTML = `
-                    <img src="https://i.imgur.com/SQVdIBq.png" alt="Celebrating dinosaur">
-                    <div class="dino-mouth"></div>
-                `;
+                const dino = document.createElement('img');
+                dino.src = 'my-alphabet-counting-game/dinosaur.png';
+                dino.alt = 'Celebrating Dinosaur';
+                dino.className = 'dino-image';
                 
                 // Add dinosaur to the page
                 document.body.appendChild(dino);
@@ -116,9 +113,9 @@ function handleLetterClick(e) {
                 }, 100);
                 
                 // Play celebration sound
-                const celebrationSound = new Audio('https://freesound.org/data/previews/411/411089_5121236-lq.mp3');
-                celebrationSound.volume = 0.5;
-                celebrationSound.play();
+                const sound = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg');
+                sound.volume = 0.5;
+                sound.play();
             }, 300);
         }
     } else {
@@ -144,43 +141,114 @@ function handleLetterClick(e) {
 // Counting Game
 const countingContainer = document.querySelector('.counting-container');
 const countDisplay = document.querySelector('.count-display');
+let expectedNumber = 1; // Track the next expected number
 
-for (let i = 1; i <= 20; i++) {
-  const numberButton = document.createElement('div');
-  numberButton.className = 'number';
-  numberButton.textContent = i;
+// Create an array of numbers 1-20 and shuffle them
+let numbers = Array.from({length: 20}, (_, i) => i + 1);
+for (let i = numbers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+}
 
-  numberButton.addEventListener('click', () => {
-    clickSound.currentTime = 0;
-    clickSound.play();
+// Create number buttons
+numbers.forEach(number => {
+    const numberButton = document.createElement('div');
+    numberButton.className = 'number';
+    numberButton.textContent = number;
+    numberButton.addEventListener('click', () => handleNumberClick(numberButton, number));
+    countingContainer.appendChild(numberButton);
+});
 
-    const speakNumber = new SpeechSynthesisUtterance(i.toString());
-    speechSynthesis.speak(speakNumber);
+function handleNumberClick(button, clickedNumber) {
+    if (clickedNumber === expectedNumber) {
+        // Correct number clicked
+        clickSound.currentTime = 0;
+        clickSound.play();
 
-    // Display stars for a fun counting visual
-    countDisplay.innerHTML = '';
-    for (let j = 0; j < i; j++) {
-      const star = document.createElement('span');
-      star.textContent = '★';
-      star.style.margin = '5px';
-      countDisplay.appendChild(star);
-    }
-    
-    // Trigger a full-screen confetti burst when number 20 is clicked
-    if (i === 20) {
-      confetti({
-        particleCount: 200,
-        spread: 100,
-        origin: { y: 0.5 }
-      });
-      // Add a short delay, then clear the stars
-      setTimeout(() => {
+        // Speak the number
+        const speakNumber = new SpeechSynthesisUtterance(clickedNumber.toString());
+        speechSynthesis.speak(speakNumber);
+
+        // Move the button to the target container
+        dropTargetContainer.appendChild(button);
+        button.removeEventListener('click', handleNumberClick);
+        button.style.cursor = 'default';
+
+        // Display stars for the current number
         countDisplay.innerHTML = '';
-      }, 1000); // Delay of 1 second (1000 milliseconds)
-    }
-  });
+        for (let i = 0; i < clickedNumber; i++) {
+            const star = document.createElement('span');
+            star.textContent = '★';
+            star.style.margin = '5px';
+            countDisplay.appendChild(star);
+        }
 
-  countingContainer.appendChild(numberButton);
+        expectedNumber++;
+
+        // Check for win condition
+        if (expectedNumber > 20) {
+            setTimeout(() => {
+                // Create dinosaur element
+                const dino = document.createElement('img');
+                dino.src = 'my-alphabet-counting-game/dinosaur.png';
+                dino.alt = 'Celebrating Dinosaur';
+                dino.className = 'dino-image';
+                
+                // Add dinosaur to the page
+                document.body.appendChild(dino);
+                
+                // Position the dinosaur in the center
+                setTimeout(() => {
+                    dino.style.opacity = '1';
+                    dino.style.transform = 'scale(1)';
+                    
+                    // Shoot confetti from dinosaur's mouth
+                    const mouth = document.querySelector('.dino-mouth');
+                    const mouthRect = mouth.getBoundingClientRect();
+                    
+                    confetti({
+                        particleCount: 300,
+                        spread: 70,
+                        origin: { 
+                            x: mouthRect.left / window.innerWidth,
+                            y: mouthRect.top / window.innerHeight 
+                        },
+                        colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff']
+                    });
+                    
+                    // Remove dinosaur after celebration
+                    setTimeout(() => {
+                        dino.style.opacity = '0';
+                        setTimeout(() => {
+                            document.body.removeChild(dino);
+                        }, 1000);
+                    }, 4000);
+                }, 100);
+                
+                // Play celebration sound
+                const sound = new Audio('https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg');
+                sound.volume = 0.5;
+                sound.play();
+            }, 300);
+        }
+    } else {
+        // Incorrect number clicked
+        console.log(`Incorrect. Expected: ${expectedNumber}, Clicked: ${clickedNumber}`);
+        const originalColor = button.style.backgroundColor;
+        button.style.backgroundColor = '#ffcccb'; // Light red
+        
+        // Create and show the message
+        const messageEl = document.createElement('div');
+        messageEl.className = 'error-message';
+        messageEl.textContent = `Sorry, that's not correct. Try again!`;
+        document.body.appendChild(messageEl);
+        
+        // Remove message after 2 seconds
+        setTimeout(() => {
+            document.body.removeChild(messageEl);
+            button.style.backgroundColor = originalColor; // Revert color
+        }, 2000);
+    }
 }
 
 // --- REMOVE Alphabet Order Check Logic ---
