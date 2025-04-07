@@ -3,29 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Number Ordering Game</title>
+  <title>Educational Games</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Canvas-Confetti library from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-  <h1>Number Ordering Game</h1>
+  <h1>Educational Games</h1>
   
-  <div class="game-instructions">
-    <p>Click the numbers in order from 1 to 20</p>
+  <div class="game-selector">
+    <button id="alphabet-selector" class="selector-button active">Alphabet Game</button>
+    <button id="number-selector" class="selector-button">Number Ordering Game</button>
   </div>
+  
+  <section id="alphabet-section" class="game-section active">
+    <h2>Alphabet Game</h2>
+    <div class="game-instructions">
+      <p>Click the letters in alphabetical order from A to Z</p>
+    </div>
+    <div class="alphabet-container">
+      <!-- Shuffled letters will be added here by JavaScript -->
+    </div>
+    <div id="alphabet-target" class="drop-target-container">
+      <!-- Correctly ordered letters will appear here -->
+    </div>
+  </section>
 
-  <section id="game-section">
-    <h2>Find the correct order!</h2>
+  <section id="number-section" class="game-section">
+    <h2>Number Ordering Game</h2>
+    <div class="game-instructions">
+      <p>Click the numbers in order from 1 to 20</p>
+    </div>
     <div class="counting-container">
       <!-- Shuffled numbers will be added here by JavaScript -->
     </div>
-    
     <h3>Your ordered numbers:</h3>
-    <div class="drop-target-container">
+    <div id="number-target" class="drop-target-container">
       <!-- Correctly ordered numbers will appear here -->
     </div>
-    
     <div class="count-display"></div>
   </section>
 
