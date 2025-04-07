@@ -7,19 +7,34 @@ body {
   padding: 20px;
 }
 
-h1, h2 {
+h1, h2, h3 {
   margin-top: 20px;
 }
 
-.alphabet-container, .counting-container {
+.game-instructions {
+  margin: 20px auto;
+  max-width: 600px;
+  background-color: #f0f8ff; /* Light blue */
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid #4682b4; /* Steel blue */
+}
+
+.game-instructions p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.counting-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 20px auto;
   gap: 10px;
+  max-width: 800px;
 }
 
-.letter, .number {
+.number {
   background-color: #ffcc70;
   border: 2px solid #ff9933;
   border-radius: 10px;
@@ -32,12 +47,12 @@ h1, h2 {
   transition: transform 0.2s, background-color 0.2s;
 }
 
-.letter:hover, .number:hover {
+.number:hover {
   background-color: #ffe0a3;
   transform: scale(1.1);
 }
 
-/* Added styling for the new target container */
+/* Styling for the target container */
 .drop-target-container {
   display: flex;
   flex-wrap: wrap;
@@ -45,17 +60,26 @@ h1, h2 {
   margin: 20px auto;
   padding: 10px;
   gap: 10px;
-  min-height: 80px; /* Give it some height */
-  width: 80%; /* Adjust width as needed */
+  min-height: 80px;
+  max-width: 800px;
   background-color: #e0f7fa; /* Light cyan background */
   border: 2px dashed #00796b; /* Dashed border */
   border-radius: 10px;
 }
 
-/* Style for letters moved to the target area */
-.drop-target-container .letter {
+/* Style for numbers moved to the target area */
+.drop-target-container .number {
   background-color: #90ee90; /* Light green background */
   cursor: default; /* Indicate they are not clickable anymore */
+}
+
+.number.placed {
+  animation: placedAnimation 0.5s ease-out;
+}
+
+@keyframes placedAnimation {
+  0% { transform: scale(1.2); }
+  100% { transform: scale(1); }
 }
 
 .count-display {
@@ -64,41 +88,17 @@ h1, h2 {
 }
 
 /* Celebration Dinosaur */
-.celebration-dino {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
-  z-index: 1000;
-  opacity: 0;
-  transition: opacity 0.5s, transform 0.5s;
-}
-
-.celebration-dino img {
-  width: 300px;
-  height: auto;
-}
-
 .dino-image {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px;
+  transform: translate(-50%, -50%) scale(0) scaleX(-1);
+  width: 300px;
   height: auto;
   z-index: 1000;
-  animation: dinoAppear 0.5s ease-out;
-}
-
-.dino-mouth {
-  position: absolute;
-  top: 50%;
-  left: 40%;
-  width: 20px;
-  height: 20px;
-  /* Uncomment for debugging mouth position */
-  /* background-color: red; */
-  z-index: 1001;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+  transform-origin: center;
 }
 
 /* Error Message Styling */

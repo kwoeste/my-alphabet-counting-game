@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Archie's Educational Game</title>
+  <title>Number Ordering Game</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Canvas-Confetti library from CDN -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-  <h1>Welcome to Archie's Educational Game!</h1>
+  <h1>Number Ordering Game</h1>
   
-  <section id="alphabet-section">
-    <h2>Alphabet Game</h2>
-    <div class="alphabet-container">
-      <!-- Shuffled letters will be added here by JavaScript -->
-    </div>
-    <div class="drop-target-container">
-        <!-- Correctly ordered letters will appear here -->
-    </div>
-  </section>
+  <div class="game-instructions">
+    <p>Click the numbers in order from 1 to 20</p>
+  </div>
 
-  <section id="counting-section">
-    <h2>Let's Count!</h2>
+  <section id="game-section">
+    <h2>Find the correct order!</h2>
     <div class="counting-container">
-      <!-- Numbers 1-10 will be dynamically added here -->
+      <!-- Shuffled numbers will be added here by JavaScript -->
     </div>
+    
+    <h3>Your ordered numbers:</h3>
+    <div class="drop-target-container">
+      <!-- Correctly ordered numbers will appear here -->
+    </div>
+    
     <div class="count-display"></div>
   </section>
 
