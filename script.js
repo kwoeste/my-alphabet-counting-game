@@ -182,7 +182,7 @@ function initializeGames() {
     function showCelebration() {
         // Create dinosaur element for celebration
         const dino = document.createElement('img');
-        dino.src = 'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/70656/trex-dinosaur-clipart-md.png';
+        dino.src = 'dinosaur.svg'; // Use local dinosaur image
         dino.alt = 'Celebrating Dinosaur';
         dino.className = 'dino-image';
         
@@ -192,13 +192,15 @@ function initializeGames() {
         // Position the dinosaur in the center
         setTimeout(() => {
             dino.style.opacity = '1';
-            dino.style.transform = 'translate(-50%, -50%) scale(1) scaleX(-1)';
+            dino.style.transform = 'translate(-50%, -50%) scale(1)';
             
-            // Ensure the dinosaur is loaded before calculating mouth position
-            dino.onload = () => {
+            // Create a mouth position relative to the dinosaur image
+            setTimeout(() => {
+                // The SVG has the mouth defined at coordinates around (360, 40)
+                // So we need to position the confetti origin at that point relative to the image
                 const dinoRect = dino.getBoundingClientRect();
-                const mouthX = (dinoRect.left + dinoRect.width * 0.25) / window.innerWidth;
-                const mouthY = (dinoRect.top + dinoRect.height * 0.4) / window.innerHeight;
+                const mouthX = (dinoRect.left + (370 * dinoRect.width / 400)) / window.innerWidth;
+                const mouthY = (dinoRect.top + (40 * dinoRect.height / 300)) / window.innerHeight;
                 
                 // Shoot confetti from dinosaur's mouth
                 confetti({
@@ -208,21 +210,16 @@ function initializeGames() {
                         x: mouthX,
                         y: mouthY 
                     },
-                    angle: 300, // Adjust angle based on flipped dino
+                    angle: 120, // Adjust angle for the SVG dinosaur
                     startVelocity: 60,
                     colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff']
                 });
-            };
-            
-            // If image is already loaded, fire the onload handler immediately
-            if (dino.complete) {
-                dino.onload();
-            }
+            }, 100);
             
             // Remove dinosaur after celebration
             setTimeout(() => {
                 dino.style.opacity = '0';
-                dino.style.transform = 'translate(-50%, -50%) scale(0) scaleX(-1)';
+                dino.style.transform = 'translate(-50%, -50%) scale(0)';
                 setTimeout(() => {
                     document.body.removeChild(dino);
                 }, 1000);
