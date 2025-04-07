@@ -173,7 +173,7 @@ function showError(button, message) {
 function showCelebration() {
     // Create dinosaur element for celebration
     const dino = document.createElement('img');
-    dino.src = 'https://freepngimg.com/thumb/dinosaur/33376-9-dinosaur-transparent-image.png';
+    dino.src = 'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/70656/trex-dinosaur-clipart-md.png';
     dino.alt = 'Celebrating Dinosaur';
     dino.className = 'dino-image';
     
@@ -185,8 +185,8 @@ function showCelebration() {
         dino.style.opacity = '1';
         dino.style.transform = 'translate(-50%, -50%) scale(1) scaleX(-1)';
         
-        // Create a mouth position relative to the dinosaur image
-        setTimeout(() => {
+        // Ensure the dinosaur is loaded before calculating mouth position
+        dino.onload = () => {
             const dinoRect = dino.getBoundingClientRect();
             const mouthX = (dinoRect.left + dinoRect.width * 0.25) / window.innerWidth;
             const mouthY = (dinoRect.top + dinoRect.height * 0.4) / window.innerHeight;
@@ -203,7 +203,12 @@ function showCelebration() {
                 startVelocity: 60,
                 colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff']
             });
-        }, 100);
+        };
+        
+        // If image is already loaded, fire the onload handler immediately
+        if (dino.complete) {
+            dino.onload();
+        }
         
         // Remove dinosaur after celebration
         setTimeout(() => {
